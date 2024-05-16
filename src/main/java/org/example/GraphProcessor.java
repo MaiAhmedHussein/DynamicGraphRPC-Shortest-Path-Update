@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.*;
+import java.util.function.Function;
 
 class GraphProcessor {
     private Graph graph;
@@ -47,8 +48,31 @@ class GraphProcessor {
 
             switch (opType) {
                 case 'Q':
+                    long startTime = System.nanoTime();
                     int distance = shortestPath.dijkstra(graph, src, dest);
+                    long endTime = System.nanoTime();
                     System.out.println(distance);
+                    System.out.println("Dijkstra's algorithm execution time: " + (endTime - startTime) + " nanoseconds");
+
+                    startTime = System.nanoTime();
+                    distance = shortestPath.bfs(graph, src, dest);
+                    endTime = System.nanoTime();
+                    System.out.println(distance);
+                    System.out.println("BFS algorithm execution time: " + (endTime - startTime) + " nanoseconds");
+
+                    Function<Integer, Integer> heuristic = node -> 0; // Replace with your actual heuristic function
+                    startTime = System.nanoTime();
+                    distance = shortestPath.aStar(graph, src, dest, heuristic);
+                    endTime = System.nanoTime();
+                    System.out.println(distance);
+                    System.out.println("A* algorithm execution time: " + (endTime - startTime) + " nanoseconds");
+
+                    startTime = System.nanoTime();
+                    distance = shortestPath.bellmanFord(graph, src, dest);
+                    endTime = System.nanoTime();
+                    System.out.println(distance);
+                    System.out.println("Bellman Ford algorithm execution time: " + (endTime - startTime) + " nanoseconds");
+
                     break;
                 case 'A':
                     if (!graph.hasEdge(src, dest)) {
