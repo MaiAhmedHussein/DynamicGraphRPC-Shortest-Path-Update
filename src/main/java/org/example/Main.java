@@ -8,14 +8,13 @@ import java.util.*;
 
 public class Main {
     public static void initializeGraph(String filename, int numNodes) {
-        Random random = new Random();
         try (FileWriter writer = new FileWriter(filename)) {
             for (int i = 0; i < numNodes; i++) {
                 for (int j = i + 1; j < numNodes; j++) {
-                    int weight = random.nextInt(10) + 1; // Random weight between 1 and 10
-                    writer.write(i + " " + j + " " + weight + "\n");
+                    writer.write(i + " " + j + " " + "\n");
                 }
             }
+            writer.write("S");
         } catch (IOException e) {
             e.printStackTrace();
         }
