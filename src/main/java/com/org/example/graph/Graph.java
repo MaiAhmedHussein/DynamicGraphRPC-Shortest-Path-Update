@@ -1,4 +1,4 @@
-package org.example;
+package com.org.example.graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,5 +32,9 @@ public class Graph {
 
     public boolean hasEdge(int source, int destination) {
         return adjList.containsKey(source) && adjList.get(source).contains(destination);
+    }
+
+    public void setAdjList(Map<Integer, List<Integer>> adjList) {
+        this.adjList = adjList;
     }
 }
