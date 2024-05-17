@@ -12,20 +12,14 @@ import java.util.Properties;
 public class Server {
     public static void main(String[] args) {
         try {
-            Properties props = new Properties();
-            props.load(new FileInputStream("src/system.properties"));
-            String serverAddress = props.getProperty("GSP.server");
-            System.setProperty("java.rmi.server.hostname", serverAddress);
-            Logger logger = new Logger("ServerLogs_" + System.currentTimeMillis());
+            System.setProperty("java.rmi.server.hostname", "192.168.1.9");
+            Logger logger = new Logger("ServerLogs/log_" + System.currentTimeMillis());
             GraphProcessor graphProcessor = new GraphProcessor(logger);
             graphProcessor.processInitialGraphInput(Objects.requireNonNull(Input.readInput("src/input.txt")));
             GraphRmiImpl obj = new GraphRmiImpl(graphProcessor);
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.bind("Update", obj);
             System.out.println("Server Started");
-            while (true) {
-                Thread.sleep(1000); // Sleep for 1 second before next iteration
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }

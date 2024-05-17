@@ -8,118 +8,23 @@ import java.rmi.NotBoundException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Client {
 
-
-    private static void responseTimeVsRequestsFrequency(boolean optimized, String clientID, GraphRmiInterface stub)
-            throws IOException, InterruptedException {
-
-        Logger logger = new Logger("performancetest/responseTimeVsRequestsFrequency_" + clientID + "_optimized=" + optimized);
-
-        int trials = 5, points = 10, percent = 50;
-        for (int j = 0; j < points; j++) {
-            long[] median = new long[trials];
-            System.out.println("Point " + (j + 1) + ": ");
-            for (int i = 0; i < trials; i++) {
-                String path = "performancetest/responseTimeVsRequestsFrequency/" + clientID + "_batch_"
-                        + j + "_Trial_" + i + ".txt";
-                ArrayList<String> batch = BatchGenerator.generateBatch(logger, percent);
-                // Calculate Response Time
-                long start = System.currentTimeMillis();
-                List<String> results = stub.processBatchRequests(clientID, batch, optimized);
-                long end = System.currentTimeMillis();
-                median[i] = (end - start);
-                logger.log(median[i] + "");
-
-                // Sleep till the next batch
-                Thread.sleep(ThreadLocalRandom.current().nextInt(1, 11) * 1000L);
-            }
-            Arrays.sort(median);
-            logger.log("Point " + (j + 1) + ": Response Time = " + median[trials / 2] + " ms");
-        }
-    }
-
-    private static void responseTimeVsOperationsPercentage(boolean optimized, String clientID, GraphRmiInterface stub)
-            throws IOException, InterruptedException {
-
-        Logger logger = new Logger("performancetest/responseTimeVsOperationsPercentage_" + clientID + "_optimized=" + optimized);
-
-        int percent = 10, trials = 5, points = 10, quires = 1000;
-        for (int j = 0; j < points; j++) {
-
-            long[] median = new long[trials];
-            for (int i = 0; i < trials; i++) {
-
-
-                ArrayList<String> batch = BatchGenerator.generateBatch(logger, percent);
-
-                // Calculate Response Time
-                long start = System.currentTimeMillis();
-                ArrayList<String> results = stub.processBatchRequests(clientID, batch, optimized);
-                long end = System.currentTimeMillis();
-
-                median[i] = (end - start);
-                logger.log(median[i] + "");
-
-                // Sleep till the next batch
-                Thread.sleep(ThreadLocalRandom.current().nextInt(1, 11) * 1000L);
-            }
-            Arrays.sort(median);
-            logger.log("Point " + (j + 1) + ": Response Time = " + median[trials / 2] + " ms");
-        }
-    }
-
-    /**
-     * Performance Analysis:
-     * Response Time(median of 20 trials) vs Number of Nodes(1:5)
-     * Quires = 30 query
-     *
-     * @param stub for RMI processing
-     */
-    private static void responseTimeVsNumberOfNodes(boolean optimized, String clientID, GraphRmiInterface stub)
-            throws IOException, InterruptedException {
-
-        Logger logger = new Logger("performancetest/responseTimeVsNumberOfNodes13_" + clientID + "_optimized=" + optimized);
-
-        int trials = 5, quires = 1000, percent = 50;
-        long[] median = new long[trials];
-        for (int i = 0; i < trials; i++) {
-            ArrayList<String> batch = BatchGenerator.generateBatch(logger, percent);
-
-            // Calculate Response Time
-            long start = System.currentTimeMillis();
-            List<String> results = stub.processBatchRequests(clientID, batch, optimized);
-            long end = System.currentTimeMillis();
-
-            median[i] = (end - start);
-            logger.log(median[i] + "");
-
-            // Sleep till the next batch
-            Thread.sleep(ThreadLocalRandom.current().nextInt(1, 11) * 1000L);
-        }
-        Arrays.sort(median);
-        logger.log("Response Time = " + median[trials / 2] + " ms");
-    }
-
     public static void main(String[] args) {
         try {
+
             String clientID = args[0]; //client id
             String performanceTesting = args[1]; //performance test or not
-            String optimized = args[2]; //optimized or not
-            Logger logger = new Logger(clientID + "_" + System.currentTimeMillis() + ".txt");
-            Properties props = new Properties();
-            props.load(new FileInputStream("src/system.properties"));
-            String serverAddress = props.getProperty("GSP.server");
-            int registryPort = Integer.parseInt(props.getProperty("GSP.rmiregistry.port"));
-            Registry registry = LocateRegistry.getRegistry(serverAddress, registryPort);
+            Logger logger;
+            Registry registry = LocateRegistry.getRegistry("192.168.1.9", 1099);
             GraphRmiInterface stub = (GraphRmiInterface) registry.lookup("Update");
-            boolean b = !Objects.equals(optimized, "0");
-
+            long now;
+            String batchesPath;
             switch (performanceTesting) {
                 case "0":
-                    ArrayList<String> operations = BatchGenerator.generateBatch(logger, 0.5);
+                    logger = new Logger("clientLogs/randomRuns/" + clientID);
+                    ArrayList<String> operations = BatchGenerator.generateBatch(logger, 0.5, 100);
                     long startTime = System.currentTimeMillis();
                     ArrayList<String> res = stub.processBatchRequests(clientID, operations, false);
                     long endTime = System.currentTimeMillis();
@@ -146,25 +51,32 @@ public class Client {
                         } else {
                             logMessage = operation + " ----> Unknown operation";
                         }
-
                         logger.log(logMessage);
                     }
                     logger.log("Response time: " + responseTime + " ms");
                     break;
                 case "1":
-                    Client.responseTimeVsRequestsFrequency(b, clientID, stub);
+                    now = System.currentTimeMillis();
+                    logger = new Logger("clientLogs/performancetests/responseTimeVsRequestsFrequency/" + clientID+"_" + now);
+                    batchesPath = "clientLogs/performancetests/responseTimeVsRequestsFrequency/"  + clientID + now + "_generatedBatches";
+                    PerformanceTester.varyingFrequencyOfRequests(clientID, logger, batchesPath, 0.5, stub);
                     break;
                 case "2":
-                    Client.responseTimeVsOperationsPercentage(b, clientID, stub);
+                    now = System.currentTimeMillis();
+                    logger = new Logger("clientLogs/performancetests/responseTimeVsOperationsPercentage/" + clientID+"_" + now);
+                    batchesPath = "clientLogs/performancetests/responseTimeVsOperationsPercentage/"  + clientID+ now + "_generatedBatches";
+                    PerformanceTester.varyingPercentageOfWriteOp(clientID, logger, batchesPath, 100, stub);
                     break;
-                case "3":
-                    Client.responseTimeVsNumberOfNodes(b, clientID, stub);
-                    break;
+               /* case "3":
+                    logger = new Logger("clientLogs/performancetests/responseTimeVsRequestsFrequency/"+clientID);
+                    PerformanceTester.varyingNumberOfNodes(clientID, logger,0.5,100);
+                    break;*/
                 default:
+                    logger = new Logger("clientLogs/randomRuns/" + clientID);
                     logger.log("Please Enter a valid input");
             }
 
-        } catch (NotBoundException | IOException | InterruptedException ex) {
+        } catch (NotBoundException | IOException ex) {
             throw new RuntimeException(ex);
         }
     }

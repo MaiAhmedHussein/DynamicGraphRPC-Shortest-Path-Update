@@ -80,6 +80,7 @@ public class GraphProcessor {
                         res.add("0\n");
                     }
                     break;
+
             }
         }
         //logger.log("result of processing: " + res.toString());

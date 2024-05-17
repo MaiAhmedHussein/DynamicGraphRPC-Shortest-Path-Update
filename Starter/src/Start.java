@@ -15,7 +15,6 @@ public class Start {
         }
 
         String arg2 = "0";
-        String arg3 = "0";
 
         // Start the server process
         String[] serverCommand = {"/bin/bash", "-c", "java -jar Server.jar"};
@@ -28,17 +27,12 @@ public class Start {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
-
-        // Initialize the executor for client processes
         ExecutorService executor = Executors.newFixedThreadPool(Integer.parseInt(props.getProperty("GSP.numberOfnodes")));
-
-        for (int i = 0; i < Integer.parseInt(props.getProperty("GSP.numberOfnodes")); i++) {
+        for (int i = 0; i < 2; i++) {
             final int nodeIndex = i;
             executor.submit(() -> {
                 try {
-                    String[] clientCommand = {"/bin/bash", "-c", "java -jar /home/mai/DynamicGraphRPC-Shortest-Path-Update/Starter/Client.jar " + nodeIndex + " " + arg2 + " " + arg3};
+                    String[] clientCommand = {"/bin/bash", "-c", "java -jar Client.jar node" + nodeIndex + " " + 1};
                     Process clientProcess = Runtime.getRuntime().exec(clientCommand);
                     handleProcessOutput(clientProcess);
                     clientProcess.waitFor();
@@ -47,40 +41,56 @@ public class Start {
                 }
             });
         }
-
-        /* With semaphore
-        * // Create a Semaphore with a single permit
-Semaphore semaphore = new Semaphore(1);
-
-for (int i = 0; i < Integer.parseInt(props.getProperty("GSP.numberOfnodes")); i++) {
-    final int nodeIndex = i;
-    executor.submit(() -> {
-        try {
-            // Acquire the semaphore before accessing the shared resource
-            semaphore.acquire();
-
-            String[] clientCommand = {"/bin/bash", "-c", "java -jar /home/mai/DynamicGraphRPC-Shortest-Path-Update/Starter/Client.jar " + nodeIndex + " " + arg2 + " " + arg3};
-            Process clientProcess = Runtime.getRuntime().exec(clientCommand);
-            handleProcessOutput(clientProcess);
-            clientProcess.waitFor();
-
-            // Release the semaphore after accessing the shared resource
-            semaphore.release();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+     /*   for (int i = 0; i < 5; i++) {
+            final int nodeIndex = i;
+            executor.submit(() -> {
+                try {
+                    String[] clientCommand = {"/bin/bash", "-c", "java -jar Client.jar node" + nodeIndex + " " + 1};
+                    Process clientProcess = Runtime.getRuntime().exec(clientCommand);
+                    handleProcessOutput(clientProcess);
+                    clientProcess.waitFor();
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
         }
-    });
-}*/
+        for (int i = 0; i < 5; i++) {
+            final int nodeIndex = i;
+            executor.submit(() -> {
+                try {
+                    String[] clientCommand = {"/bin/bash", "-c", "java -jar Client.jar node" + nodeIndex + " " + 2};
+                    Process clientProcess = Runtime.getRuntime().exec(clientCommand);
+                    handleProcessOutput(clientProcess);
+                    clientProcess.waitFor();
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+        // Initialize the executor for client processes
+        for (int i = 1; i < 15; i++) {
+            for (int j = 0; j < i; j++) {
+                final int nodeIndex = i;
+                executor.submit(() -> {
+                    try {
+                        String[] clientCommand = {"/bin/bash", "-c", "java -jar Client.jar node" + nodeIndex + " " + 0};
+                        Process clientProcess = Runtime.getRuntime().exec(clientCommand);
+                        handleProcessOutput(clientProcess);
+                        clientProcess.waitFor();
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+        }*/
         // Shutdown the executor
         executor.shutdown();
         while (!executor.isTerminated()) {
             Thread.sleep(1000);
         }
-
         // Stop the server process
         serverProcess.destroy();
         serverProcess.waitFor();
-
         System.exit(0);
     }
 
