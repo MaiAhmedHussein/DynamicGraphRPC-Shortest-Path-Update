@@ -1,0 +1,143 @@
+Generated Batch of Requests with writePercentage = 0.5 Number Of Operations = 100
+[Q 52 18, D 88 79, D 98 97, A 76 82, Q 53 99, A 4 60, Q 56 59, D 82 28, Q 98 39, Q 84 95, Q 29 94, A 29 46, D 49 76, A 72 98, D 51 10, Q 30 33, A 38 5, Q 58 48, A 21 56, Q 3 75, Q 39 72, A 95 88, Q 96 24, A 27 52, Q 7 84, Q 50 99, D 49 26, D 37 76, D 65 61, Q 59 34, Q 20 51, D 99 8, A 28 90, A 49 17, Q 75 62, A 51 62, Q 34 14, A 19 84, D 24 68, Q 84 89, D 74 28, Q 40 28, D 8 56, Q 1 92, Q 56 77, A 42 85, A 44 21, Q 97 99, D 24 89, A 98 57, D 61 99, D 13 25, A 86 18, A 68 44, Q 7 81, Q 66 55, D 55 8, A 74 22, A 34 14, A 16 63, A 61 79, D 38 95, A 51 20, A 9 84, Q 93 4, D 82 77, Q 51 37, Q 54 87, Q 85 32, A 21 75, Q 86 59, D 3 0, A 85 88, Q 19 45, Q 81 92, A 33 62, A 7 70, Q 52 18, Q 19 76, A 97 57, D 27 36, A 31 27, Q 68 40, Q 9 6, D 84 37, A 28 77, D 73 59, D 18 5, A 10 55, A 50 65, A 69 74, D 13 42, Q 64 52, D 0 8, Q 53 38, D 58 70, Q 51 17, Q 40 25, Q 69 86, D 41 75]
+Q 52 18 ----> 3
+
+D 88 79 ----> Already there is no edge
+D 98 97 ----> Already there is no edge
+A 76 82 ----> Already there is an edge
+Q 53 99 ----> -1
+
+A 4 60 ----> Already there is an edge
+Q 56 59 ----> 1
+
+D 82 28 ----> Already there is no edge
+Q 98 39 ----> -1
+
+Q 84 95 ----> 1
+
+Q 29 94 ----> 1
+
+A 29 46 ----> Already there is an edge
+D 49 76 ----> Edge deleted successfully
+A 72 98 ----> Already there is an edge
+D 51 10 ----> Already there is no edge
+Q 30 33 ----> 1
+
+A 38 5 ----> Edge added successfully
+Q 58 48 ----> 2
+
+A 21 56 ----> Already there is an edge
+Q 3 75 ----> 1
+
+Q 39 72 ----> 1
+
+A 95 88 ----> Edge added successfully
+Q 96 24 ----> 3
+
+A 27 52 ----> Already there is an edge
+Q 7 84 ----> 1
+
+Q 50 99 ----> -1
+
+D 49 26 ----> Already there is no edge
+D 37 76 ----> Edge deleted successfully
+D 65 61 ----> Already there is no edge
+Q 59 34 ----> 2
+
+Q 20 51 ----> 1
+
+D 99 8 ----> Already there is no edge
+A 28 90 ----> Already there is an edge
+A 49 17 ----> Edge added successfully
+Q 75 62 ----> 3
+
+A 51 62 ----> Already there is an edge
+Q 34 14 ----> 3
+
+A 19 84 ----> Already there is an edge
+D 24 68 ----> Edge deleted successfully
+Q 84 89 ----> 1
+
+D 74 28 ----> Already there is no edge
+Q 40 28 ----> 3
+
+D 8 56 ----> Edge deleted successfully
+Q 1 92 ----> 1
+
+Q 56 77 ----> 1
+
+A 42 85 ----> Already there is an edge
+A 44 21 ----> Edge added successfully
+Q 97 99 ----> -1
+
+D 24 89 ----> Edge deleted successfully
+A 98 57 ----> Edge added successfully
+D 61 99 ----> Edge deleted successfully
+D 13 25 ----> Edge deleted successfully
+A 86 18 ----> Edge added successfully
+A 68 44 ----> Edge added successfully
+Q 7 81 ----> 1
+
+Q 66 55 ----> 3
+
+D 55 8 ----> Already there is no edge
+A 74 22 ----> Edge added successfully
+A 34 14 ----> Edge added successfully
+A 16 63 ----> Already there is an edge
+A 61 79 ----> Already there is an edge
+D 38 95 ----> Edge deleted successfully
+A 51 20 ----> Edge added successfully
+A 9 84 ----> Already there is an edge
+Q 93 4 ----> 3
+
+D 82 77 ----> Already there is no edge
+Q 51 37 ----> 2
+
+Q 54 87 ----> 1
+
+Q 85 32 ----> 3
+
+A 21 75 ----> Already there is an edge
+Q 86 59 ----> 2
+
+D 3 0 ----> Already there is no edge
+A 85 88 ----> Already there is an edge
+Q 19 45 ----> 1
+
+Q 81 92 ----> 1
+
+A 33 62 ----> Already there is an edge
+A 7 70 ----> Already there is an edge
+Q 52 18 ----> 2
+
+Q 19 76 ----> 1
+
+A 97 57 ----> Edge added successfully
+D 27 36 ----> Edge deleted successfully
+A 31 27 ----> Edge added successfully
+Q 68 40 ----> 3
+
+Q 9 6 ----> 3
+
+D 84 37 ----> Already there is no edge
+A 28 77 ----> Already there is an edge
+D 73 59 ----> Already there is no edge
+D 18 5 ----> Already there is no edge
+A 10 55 ----> Already there is an edge
+A 50 65 ----> Already there is an edge
+A 69 74 ----> Already there is an edge
+D 13 42 ----> Edge deleted successfully
+Q 64 52 ----> 3
+
+D 0 8 ----> Edge deleted successfully
+Q 53 38 ----> 3
+
+D 58 70 ----> Edge deleted successfully
+Q 51 17 ----> 2
+
+Q 40 25 ----> 3
+
+Q 69 86 ----> 1
+
+D 41 75 ----> Edge deleted successfully
+Response time: 2031 ms

@@ -33,7 +33,7 @@ public class Start {
             final int nodeIndex = i;
             executor.submit(() -> {
                 try {
-                    String[] clientCommand = {"/bin/bash", "-c", "java -jar Client.jar node" + nodeIndex + " " + 1};
+                    String[] clientCommand = {"/bin/bash", "-c", "java -jar Client.jar node" + nodeIndex + " " + 0};
                     Process clientProcess = Runtime.getRuntime().exec(clientCommand);
                     handleProcessOutput(clientProcess);
                     clientProcess.waitFor();
@@ -67,7 +67,7 @@ public class Start {
             // Wait for all clients to finish
         }
 
-        //Performance test : Recording response time Vs percentage of add/delete operations
+       //Performance test : Recording response time Vs percentage of add/delete operations
         executor = Executors.newFixedThreadPool(Integer.parseInt(props.getProperty("GSP.numberOfnodes")));
         for (int i = 0; i < 2; i++) {
             final int nodeIndex = i;
@@ -86,7 +86,7 @@ public class Start {
         while (!executor.isTerminated()) {
             // Wait for all clients to finish
         }
-
+/*
         //Performance test : Recording response time Vs number of nodes [1,15]
         for (int i = 1; i < 15; i++) {
             executor = Executors.newFixedThreadPool(Integer.parseInt(props.getProperty("GSP.numberOfnodes")));
@@ -113,7 +113,7 @@ public class Start {
         executor.shutdown();
         while (!executor.isTerminated()) {
             Thread.sleep(1000);
-        }
+        }*/
         // Stop the server process
         serverProcess.destroy();
         serverProcess.waitFor();

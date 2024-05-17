@@ -1,0 +1,12 @@
+Testing with Number Of Requests: 10
+Average response time for not optimized variant: 10417705 ns
+Average response time for optimized variant: 306531 ns
+Testing with Number Of Requests: 100
+Average response time for not optimized variant: 7983324 ns
+Average response time for optimized variant: 8569025 ns
+Testing with Number Of Requests: 1000
+Average response time for not optimized variant: 6680775 ns
+Average response time for optimized variant: 8202112 ns
+Testing with Number Of Requests: 10000
+Average response time for not optimized variant: 7674080 ns
+Average response time for optimized variant: 8417465 ns
