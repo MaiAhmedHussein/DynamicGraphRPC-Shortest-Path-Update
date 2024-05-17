@@ -20,11 +20,12 @@ public class Client {
             Registry registry = LocateRegistry.getRegistry("192.168.1.9", 1099);
             GraphRmiInterface stub = (GraphRmiInterface) registry.lookup("Update");
             long now;
+            ArrayList<String> operations;
             String batchesPath;
             switch (performanceTesting) {
                 case "0":
                     logger = new Logger("clientLogs/randomRuns/" + clientID);
-                    ArrayList<String> operations = BatchGenerator.generateBatch(logger, 0.5, 100);
+                    operations = BatchGenerator.generateBatch(logger, 0.5, 100);
                     long startTime = System.currentTimeMillis();
                     ArrayList<String> res = stub.processBatchRequests(clientID, operations, false);
                     long endTime = System.currentTimeMillis();
@@ -57,20 +58,20 @@ public class Client {
                     break;
                 case "1":
                     now = System.currentTimeMillis();
-                    logger = new Logger("clientLogs/performancetests/responseTimeVsRequestsFrequency/" + clientID+"_" + now);
-                    batchesPath = "clientLogs/performancetests/responseTimeVsRequestsFrequency/"  + clientID + now + "_generatedBatches";
+                    logger = new Logger("clientLogs/performancetests/responseTimeVsRequestsFrequency/" + clientID + "_" + now);
+                    batchesPath = "clientLogs/performancetests/responseTimeVsRequestsFrequency/" + clientID + "_" + now + "_generatedBatches";
                     PerformanceTester.varyingFrequencyOfRequests(clientID, logger, batchesPath, 0.5, stub);
                     break;
                 case "2":
                     now = System.currentTimeMillis();
-                    logger = new Logger("clientLogs/performancetests/responseTimeVsOperationsPercentage/" + clientID+"_" + now);
-                    batchesPath = "clientLogs/performancetests/responseTimeVsOperationsPercentage/"  + clientID+ now + "_generatedBatches";
+                    logger = new Logger("clientLogs/performancetests/responseTimeVsOperationsPercentage/" + clientID + "_" + now);
+                    batchesPath = "clientLogs/performancetests/responseTimeVsOperationsPercentage/" + clientID + "_" +  now + "_generatedBatches";
                     PerformanceTester.varyingPercentageOfWriteOp(clientID, logger, batchesPath, 100, stub);
                     break;
-               /* case "3":
-                    logger = new Logger("clientLogs/performancetests/responseTimeVsRequestsFrequency/"+clientID);
-                    PerformanceTester.varyingNumberOfNodes(clientID, logger,0.5,100);
-                    break;*/
+                case "3":
+                    String numOfNodes = args[2];
+                    PerformanceTester.varyingNumberOfNodes(clientID, numOfNodes, stub);
+                    break;
                 default:
                     logger = new Logger("clientLogs/randomRuns/" + clientID);
                     logger.log("Please Enter a valid input");

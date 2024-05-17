@@ -28,6 +28,7 @@ public class Start {
             e.printStackTrace();
         }
         ExecutorService executor = Executors.newFixedThreadPool(Integer.parseInt(props.getProperty("GSP.numberOfnodes")));
+        //Random Run
         for (int i = 0; i < 2; i++) {
             final int nodeIndex = i;
             executor.submit(() -> {
@@ -41,7 +42,14 @@ public class Start {
                 }
             });
         }
-     /*   for (int i = 0; i < 5; i++) {
+        executor.shutdown();
+        while (!executor.isTerminated()) {
+            // Wait for all clients to finish
+        }
+
+        //Performance test : Recording response time Vs frequency of requests
+        executor = Executors.newFixedThreadPool(Integer.parseInt(props.getProperty("GSP.numberOfnodes")));
+        for (int i = 0; i < 2; i++) {
             final int nodeIndex = i;
             executor.submit(() -> {
                 try {
@@ -54,7 +62,14 @@ public class Start {
                 }
             });
         }
-        for (int i = 0; i < 5; i++) {
+        executor.shutdown();
+        while (!executor.isTerminated()) {
+            // Wait for all clients to finish
+        }
+
+        //Performance test : Recording response time Vs percentage of add/delete operations
+        executor = Executors.newFixedThreadPool(Integer.parseInt(props.getProperty("GSP.numberOfnodes")));
+        for (int i = 0; i < 2; i++) {
             final int nodeIndex = i;
             executor.submit(() -> {
                 try {
@@ -67,13 +82,20 @@ public class Start {
                 }
             });
         }
-        // Initialize the executor for client processes
+        executor.shutdown();
+        while (!executor.isTerminated()) {
+            // Wait for all clients to finish
+        }
+
+        //Performance test : Recording response time Vs number of nodes [1,15]
         for (int i = 1; i < 15; i++) {
+            executor = Executors.newFixedThreadPool(Integer.parseInt(props.getProperty("GSP.numberOfnodes")));
             for (int j = 0; j < i; j++) {
-                final int nodeIndex = i;
+                final int nodeIndex = j;
+                int finalI = i;
                 executor.submit(() -> {
                     try {
-                        String[] clientCommand = {"/bin/bash", "-c", "java -jar Client.jar node" + nodeIndex + " " + 0};
+                        String[] clientCommand = {"/bin/bash", "-c", "java -jar Client.jar node" + nodeIndex + " " + 3 + " " + finalI};
                         Process clientProcess = Runtime.getRuntime().exec(clientCommand);
                         handleProcessOutput(clientProcess);
                         clientProcess.waitFor();
@@ -82,7 +104,11 @@ public class Start {
                     }
                 });
             }
-        }*/
+            executor.shutdown();
+            while (!executor.isTerminated()) {
+                // Wait for all clients to finish
+            }
+        }
         // Shutdown the executor
         executor.shutdown();
         while (!executor.isTerminated()) {
