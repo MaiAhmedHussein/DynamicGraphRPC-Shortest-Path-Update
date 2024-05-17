@@ -67,16 +67,18 @@ public class GraphProcessor {
                         graph.addEdge(src, dest);
                         logger.log("Edge added: " + src + " " + dest);
                         res.add("1\n");
+                    }else {
+                        res.add("0\n");
                     }
-                    res.add("0\n");
                     break;
                 case 'D':
                     if(graph.hasEdge(src, dest)) {
                         graph.removeEdge(src, dest);
                         logger.log("Edge removed: " + src + " " + dest);
                         res.add("1\n");
+                    }else {
+                        res.add("0\n");
                     }
-                    res.add("0\n");
                     break;
             }
         }
