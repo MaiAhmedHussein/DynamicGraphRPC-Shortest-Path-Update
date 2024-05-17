@@ -15,11 +15,10 @@ public class Server {
             Properties props = new Properties();
             props.load(new FileInputStream("src/system.properties"));
             String serverAddress = props.getProperty("GSP.server");
-            int registryPort = Integer.parseInt(props.getProperty("GSP.rmiregistry.port"));
             System.setProperty("java.rmi.server.hostname", serverAddress);
             Logger logger = new Logger("ServerLogs_" + System.currentTimeMillis());
             GraphProcessor graphProcessor = new GraphProcessor(logger);
-            graphProcessor.processInitialGraphInput(Objects.requireNonNull(Input.readInput("input.txt")));
+            graphProcessor.processInitialGraphInput(Objects.requireNonNull(Input.readInput("src/input.txt")));
             GraphRmiImpl obj = new GraphRmiImpl(graphProcessor);
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.bind("Update", obj);
