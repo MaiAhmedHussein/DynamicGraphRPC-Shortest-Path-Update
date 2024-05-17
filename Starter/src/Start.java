@@ -18,11 +18,11 @@ public class Start {
         String arg3 = "0";
 
         // Start the server process
-        String[] serverCommand = {"/bin/bash", "-c", "java -jar /home/mai/DynamicGraphRPC-Shortest-Path-Update/Starter/Server.jar"};
+        String[] serverCommand = {"/bin/bash", "-c", "java -jar Server.jar"};
         Process serverProcess = Runtime.getRuntime().exec(serverCommand);
         handleProcessOutput(serverProcess);
 
-       // Wait for the server to start up
+        // Wait for the server to start up
         try {
             Thread.sleep(5000); // Wait for 5 seconds
         } catch (InterruptedException e) {
