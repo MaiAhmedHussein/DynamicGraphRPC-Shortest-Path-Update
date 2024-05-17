@@ -1,40 +1,96 @@
-
-import client.Client;
-import server.Server;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
 
 public class Start {
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        Properties props = new Properties();
         try {
-            Properties props = new Properties();
             props.load(new FileInputStream("src/system.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
 
-            String serverAddress = props.getProperty("GSP.server");
-            int serverPort = Integer.parseInt(props.getProperty("GSP.server.port"));
-            int numberOfNodes = Integer.parseInt(props.getProperty("GSP.numberOfnodes"));
+        String arg2 = "0";
+        String arg3 = "0";
 
-            // Start server in a new thread
-            new Thread(() -> {
-                Server.main(null);
-            }).start();
+        // Start the server process
+        String[] serverCommand = {"/bin/bash", "-c", "java -jar /home/mai/DynamicGraphRPC-Shortest-Path-Update/Starter/Server.jar"};
+        Process serverProcess = Runtime.getRuntime().exec(serverCommand);
+        handleProcessOutput(serverProcess);
 
-            // Wait a bit for the server to start
-            Thread.sleep(1000);
-
-            // Start clients
-            for (int i = 0; i < numberOfNodes; i++) {
-                String nodeName = "GSP.node" + i;
-                String nodeAddress = props.getProperty(nodeName);
-                System.out.println("starting node: " + nodeName + "with address " + nodeAddress);
-                new Thread(() -> {
-                    Client.main(new String[]{nodeAddress});
-                }).start();
-            }
-        } catch (IOException | InterruptedException e) {
+       // Wait for the server to start up
+        try {
+            Thread.sleep(5000); // Wait for 5 seconds
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        // Initialize the executor for client processes
+        int numberOfThreads = Integer.parseInt(props.getProperty("GSP.numberOfnodes"));
+        ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
+
+
+// Create a Semaphore with a single permit
+        Semaphore semaphore = new Semaphore(1);
+
+        for (int i = 0; i < Integer.parseInt(props.getProperty("GSP.numberOfnodes")); i++) {
+            final int nodeIndex = i;
+            executor.submit(() -> {
+                try {
+                    // Acquire the semaphore before accessing the shared resource
+                    semaphore.acquire();
+
+                    String[] clientCommand = {"/bin/bash", "-c", "java -jar /home/mai/DynamicGraphRPC-Shortest-Path-Update/Starter/Client.jar " + nodeIndex + " " + arg2 + " " + arg3};
+                    Process clientProcess = Runtime.getRuntime().exec(clientCommand);
+                    handleProcessOutput(clientProcess);
+                    clientProcess.waitFor();
+
+                    // Release the semaphore after accessing the shared resource
+                    semaphore.release();
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
+// Shutdown the executor
+        executor.shutdown();
+        while (!executor.isTerminated()) {
+            Thread.sleep(1000);
+        }
+
+        // Stop the server process
+        serverProcess.destroy();
+        serverProcess.waitFor();
+
+        System.exit(0);
+    }
+
+    private static void handleProcessOutput(Process process) {
+        new Thread(() -> {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+        new Thread(() -> {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.err.println(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }
