@@ -13,7 +13,7 @@ public class Server {
     public static void main(String[] args) {
         try {
             Properties props = new Properties();
-            props.load(new FileInputStream("system.properties"));
+            props.load(new FileInputStream("src/system.properties"));
             String serverAddress = props.getProperty("GSP.server");
             int registryPort = Integer.parseInt(props.getProperty("GSP.rmiregistry.port"));
             System.setProperty("java.rmi.server.hostname", serverAddress);

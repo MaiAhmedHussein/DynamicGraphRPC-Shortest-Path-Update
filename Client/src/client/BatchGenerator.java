@@ -24,7 +24,7 @@ public class BatchGenerator {
                 int src = random.nextInt(MAX_NODES);
                 int dest = random.nextInt(MAX_NODES);
                 String op = operation + " " + src + " " + dest;
-                logger.log(op + "\n");
+                //logger.log(op + "\n");
                 ops.add(op);
             }
          return ops;

@@ -45,7 +45,7 @@ public class GraphProcessor {
                         distance = shortestPath.bfs(graph, src, dest);
                         endTime = System.nanoTime();
                         System.out.println(distance);
-                        logger.log("BFS algorithm execution time: " + (endTime - startTime) + " nanoseconds");
+                        logger.log(operation + " (BFS algorithm) ----> " +  distance + "\nExecution time: " + (endTime - startTime) + " nanoseconds");
                     }
                     /*Function<Integer, Integer> heuristic = node -> 0; // Replace with your actual heuristic function
                     startTime = System.nanoTime();
@@ -58,21 +58,29 @@ public class GraphProcessor {
                         distance = shortestPath.bellmanFord(graph, src, dest);
                         endTime = System.nanoTime();
                         System.out.println(distance);
-                        logger.log("Bellman Ford algorithm execution time: " + (endTime - startTime) + " nanoseconds");
+                        logger.log(operation + " (Bellman Ford algorithm) ----> " +  distance + "\nExecution time: " + (endTime - startTime) + " nanoseconds");
                     }
                     res.add(distance + "\n");
                     break;
                 case 'A':
                     if (!graph.hasEdge(src, dest)) {
                         graph.addEdge(src, dest);
+                        logger.log("Edge added: " + src + " " + dest);
+                        res.add("1\n");
                     }
+                    res.add("0\n");
                     break;
                 case 'D':
-                    graph.removeEdge(src, dest);
+                    if(graph.hasEdge(src, dest)) {
+                        graph.removeEdge(src, dest);
+                        logger.log("Edge removed: " + src + " " + dest);
+                        res.add("1\n");
+                    }
+                    res.add("0\n");
                     break;
             }
         }
-        logger.log("result of processing: " + res.toString());
+        //logger.log("result of processing: " + res.toString());
         return res;
     }
 }

@@ -21,6 +21,7 @@ public class Client {
         int trials = 5, points = 10, percent = 50;
         for (int j = 0; j < points; j++) {
             long[] median = new long[trials];
+            System.out.println("Point " + (j + 1) + ": ");
             for (int i = 0; i < trials; i++) {
                 String path = "performancetest/responseTimeVsRequestsFrequency/" + clientID + "_batch_"
                         + j + "_Trial_" + i + ".txt";
@@ -109,7 +110,7 @@ public class Client {
             String optimized = args[2]; //optimized or not
             Logger logger = new Logger(clientID + "_" + System.currentTimeMillis() + ".txt");
             Properties props = new Properties();
-            props.load(new FileInputStream("system.properties"));
+            props.load(new FileInputStream("src/system.properties"));
             String serverAddress = props.getProperty("GSP.server");
             int registryPort = Integer.parseInt(props.getProperty("GSP.rmiregistry.port"));
             Registry registry = LocateRegistry.getRegistry(serverAddress, registryPort);
@@ -119,9 +120,36 @@ public class Client {
             switch (performanceTesting) {
                 case "0":
                     ArrayList<String> operations = BatchGenerator.generateBatch(logger, 0.5);
+                    long startTime = System.currentTimeMillis();
                     ArrayList<String> res = stub.processBatchRequests(clientID, operations, false);
-                    logger.log("Result:");
-                    logger.log(res.toString());
+                    long endTime = System.currentTimeMillis();
+                    long responseTime = endTime - startTime;
+                    for (int i = 0; i < operations.size(); i++) {
+                        String operation = operations.get(i);
+                        String result = res.get(i);
+                        String logMessage;
+
+                        if (operation.startsWith("A")) {
+                            if (result.equals("1\n")) {
+                                logMessage = operation + " ----> Edge added successfully";
+                            } else {
+                                logMessage = operation + " ----> Already there is an edge";
+                            }
+                        } else if (operation.startsWith("D")) {
+                            if (result.equals("1\n")) {
+                                logMessage = operation + " ----> Edge deleted successfully";
+                            } else {
+                                logMessage = operation + " ----> Already there is no edge";
+                            }
+                        } else if (operation.startsWith("Q")) {
+                            logMessage = operation + " ----> " + result;
+                        } else {
+                            logMessage = operation + " ----> Unknown operation";
+                        }
+
+                        logger.log(logMessage);
+                    }
+                    logger.log("Response time: " + responseTime + " ms");
                     break;
                 case "1":
                     Client.responseTimeVsRequestsFrequency(b, clientID, stub);

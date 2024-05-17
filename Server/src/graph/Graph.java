@@ -16,11 +16,13 @@ public class Graph {
         adjList.get(source).add(destination);
     }
 
-    public void removeEdge(int source, int destination) {
+    public Boolean removeEdge(int source, int destination) {
         if(adjList.containsKey(source)) {
             adjList.get(source).remove((Integer) destination);
+            return true;
         }
 
+        return false;
     }
 
     public List<Integer> getNeighbors(int node) {
