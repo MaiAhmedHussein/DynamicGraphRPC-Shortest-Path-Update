@@ -1,28 +1,29 @@
 package graph;
 
+import server.Logger;
+
 import java.util.*;
+import java.util.function.Function;
 
 public class GraphProcessor {
     private Graph graph;
     private ShortestPath shortestPath;
-    private Scanner scanner;
+    public Logger logger;
 
-    public GraphProcessor() {
+    public GraphProcessor(Logger logger) {
         graph = new Graph();
         shortestPath = new ShortestPath();
-        scanner = new Scanner(System.in);
+        this.logger = logger;
     }
 
-    public String processInitialGraphInput(ArrayList<int[]> list) {
-        for (int[] ints : list) {
-            this.graph.addEdge(ints[0], ints[1]);
+    public void processInitialGraphInput(ArrayList<int[]> graphList) {
+        for (int[] i : graphList) {
+            graph.addEdge(i[0], i[1]);
         }
-        return "OK";
     }
 
 
-
-    public ArrayList<String> processOperations(List<String> operations) {
+    public ArrayList<String> processOperations(List<String> operations, boolean optimized) {
         ArrayList<String> res = new ArrayList<>();
         for (String operation : operations) {
             String[] tokens = operation.split(" ");
@@ -32,8 +33,34 @@ public class GraphProcessor {
 
             switch (opType) {
                 case 'Q':
+                    long startTime, endTime;
+                    int distance;
+                    /*long startTime = System.nanoTime();
                     int distance = shortestPath.dijkstra(graph, src, dest);
-                    res.add(distance+"");
+                    long endTime = System.nanoTime();
+                    System.out.println(distance);
+                    System.out.println("Dijkstra's algorithm execution time: " + (endTime - startTime) + " nanoseconds");*/
+                    if (optimized) {
+                        startTime = System.nanoTime();
+                        distance = shortestPath.bfs(graph, src, dest);
+                        endTime = System.nanoTime();
+                        System.out.println(distance);
+                        logger.log("BFS algorithm execution time: " + (endTime - startTime) + " nanoseconds");
+                    }
+                    /*Function<Integer, Integer> heuristic = node -> 0; // Replace with your actual heuristic function
+                    startTime = System.nanoTime();
+                    distance = shortestPath.aStar(graph, src, dest, heuristic);
+                    endTime = System.nanoTime();
+                    System.out.println(distance);
+                    System.out.println("A* algorithm execution time: " + (endTime - startTime) + " nanoseconds");*/
+                    else {
+                        startTime = System.nanoTime();
+                        distance = shortestPath.bellmanFord(graph, src, dest);
+                        endTime = System.nanoTime();
+                        System.out.println(distance);
+                        logger.log("Bellman Ford algorithm execution time: " + (endTime - startTime) + " nanoseconds");
+                    }
+                    res.add(distance + "\n");
                     break;
                 case 'A':
                     if (!graph.hasEdge(src, dest)) {
@@ -45,7 +72,7 @@ public class GraphProcessor {
                     break;
             }
         }
+        logger.log("result of processing: " + res.toString());
         return res;
     }
 }
-

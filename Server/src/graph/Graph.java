@@ -1,9 +1,6 @@
 package graph;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Graph {
     private Map<Integer, List<Integer>> adjList;
@@ -34,7 +31,7 @@ public class Graph {
         return adjList.containsKey(source) && adjList.get(source).contains(destination);
     }
 
-    public void setAdjList(Map<Integer, List<Integer>> adjList) {
-        this.adjList = adjList;
+    public Set<Integer> getNodes() {
+        return adjList.keySet();
     }
 }

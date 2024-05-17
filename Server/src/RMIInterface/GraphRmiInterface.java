@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface GraphRmiInterface extends Remote{
 
-    ArrayList<String> processBatchRequests(List<String> operations) throws RemoteException;
+    ArrayList<String> processBatchRequests(String clientId,List<String> operations,boolean optimized) throws RemoteException;
 
 }
