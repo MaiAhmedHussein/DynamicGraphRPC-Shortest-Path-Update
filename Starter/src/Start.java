@@ -29,35 +29,49 @@ public class Start {
             e.printStackTrace();
         }
 
+
+
         // Initialize the executor for client processes
-        int numberOfThreads = Integer.parseInt(props.getProperty("GSP.numberOfnodes"));
-        ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
-
-
-// Create a Semaphore with a single permit
-        Semaphore semaphore = new Semaphore(1);
+        ExecutorService executor = Executors.newFixedThreadPool(Integer.parseInt(props.getProperty("GSP.numberOfnodes")));
 
         for (int i = 0; i < Integer.parseInt(props.getProperty("GSP.numberOfnodes")); i++) {
             final int nodeIndex = i;
             executor.submit(() -> {
                 try {
-                    // Acquire the semaphore before accessing the shared resource
-                    semaphore.acquire();
-
                     String[] clientCommand = {"/bin/bash", "-c", "java -jar /home/mai/DynamicGraphRPC-Shortest-Path-Update/Starter/Client.jar " + nodeIndex + " " + arg2 + " " + arg3};
                     Process clientProcess = Runtime.getRuntime().exec(clientCommand);
                     handleProcessOutput(clientProcess);
                     clientProcess.waitFor();
-
-                    // Release the semaphore after accessing the shared resource
-                    semaphore.release();
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                 }
             });
         }
 
-// Shutdown the executor
+        /* With semaphore
+        * // Create a Semaphore with a single permit
+Semaphore semaphore = new Semaphore(1);
+
+for (int i = 0; i < Integer.parseInt(props.getProperty("GSP.numberOfnodes")); i++) {
+    final int nodeIndex = i;
+    executor.submit(() -> {
+        try {
+            // Acquire the semaphore before accessing the shared resource
+            semaphore.acquire();
+
+            String[] clientCommand = {"/bin/bash", "-c", "java -jar /home/mai/DynamicGraphRPC-Shortest-Path-Update/Starter/Client.jar " + nodeIndex + " " + arg2 + " " + arg3};
+            Process clientProcess = Runtime.getRuntime().exec(clientCommand);
+            handleProcessOutput(clientProcess);
+            clientProcess.waitFor();
+
+            // Release the semaphore after accessing the shared resource
+            semaphore.release();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    });
+}*/
+        // Shutdown the executor
         executor.shutdown();
         while (!executor.isTerminated()) {
             Thread.sleep(1000);
