@@ -86,9 +86,9 @@ public class Start {
         while (!executor.isTerminated()) {
             // Wait for all clients to finish
         }
-/*
+
         //Performance test : Recording response time Vs number of nodes [1,15]
-        for (int i = 1; i < 15; i++) {
+        for (int i = 1; i <= 15; i++) {
             executor = Executors.newFixedThreadPool(Integer.parseInt(props.getProperty("GSP.numberOfnodes")));
             for (int j = 0; j < i; j++) {
                 final int nodeIndex = j;
@@ -113,7 +113,7 @@ public class Start {
         executor.shutdown();
         while (!executor.isTerminated()) {
             Thread.sleep(1000);
-        }*/
+        }
         // Stop the server process
         serverProcess.destroy();
         serverProcess.waitFor();
