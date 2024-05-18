@@ -1,0 +1,18 @@
+Testing with writePercentage: 0.0
+Average response time for not optimized variant: 24552071 ns
+Average response time for optimized variant: 156794 ns
+Testing with writePercentage: 0.1
+Average response time for not optimized variant: 21550088 ns
+Average response time for optimized variant: 9302377 ns
+Testing with writePercentage: 0.2
+Average response time for not optimized variant: 10859843 ns
+Average response time for optimized variant: 6437236 ns
+Testing with writePercentage: 0.5
+Average response time for not optimized variant: 9187311 ns
+Average response time for optimized variant: 42725 ns
+Testing with writePercentage: 0.8
+Average response time for not optimized variant: 2615844 ns
+Average response time for optimized variant: 26077 ns
+Testing with writePercentage: 1.0
+Average response time for not optimized variant: 73986 ns
+Average response time for optimized variant: 27298 ns

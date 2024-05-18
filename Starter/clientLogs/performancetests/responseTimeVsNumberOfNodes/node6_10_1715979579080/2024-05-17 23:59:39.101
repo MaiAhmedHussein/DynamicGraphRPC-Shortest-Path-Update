@@ -1,3 +1,0 @@
-Testing with number of nodes = 10
-Average response time for not optimized variant: 39807364 ns
-Average response time for optimized variant: 117943 ns

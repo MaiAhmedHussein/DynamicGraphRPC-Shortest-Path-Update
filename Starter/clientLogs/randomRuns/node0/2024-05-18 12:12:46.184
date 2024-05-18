@@ -1,0 +1,152 @@
+Generated Batch of Requests with writePercentage = 0.5 Number Of Operations = 100
+[Q 10 68, D 40 82, Q 91 47, A 40 19, Q 37 15, D 51 64, D 32 26, A 62 10, A 3 68, Q 35 54, D 2 85, Q 67 52, Q 34 12, Q 43 58, D 13 86, Q 28 54, A 28 58, D 88 58, Q 12 5, A 95 5, D 72 42, Q 32 65, D 95 27, Q 68 73, Q 8 68, A 57 60, Q 16 30, D 16 86, A 69 94, A 35 81, Q 19 99, Q 28 93, Q 38 81, D 17 47, A 80 96, Q 60 5, D 74 61, Q 19 25, D 26 29, A 36 96, A 27 39, A 78 69, Q 7 46, D 67 88, Q 50 31, A 18 17, Q 85 32, A 92 86, Q 39 40, A 40 25, D 43 83, Q 27 57, Q 87 83, D 77 53, Q 1 11, D 39 53, Q 41 3, A 49 34, Q 29 91, Q 82 50, D 99 44, A 47 40, A 65 99, Q 47 20, D 96 87, D 94 35, D 5 76, Q 61 37, Q 66 0, Q 62 65, D 1 0, A 55 24, Q 65 73, A 85 50, Q 0 97, Q 14 99, D 10 12, A 5 43, D 88 55, A 15 60, Q 63 60, Q 52 28, Q 18 0, D 66 62, Q 7 93, Q 71 25, D 55 34, Q 57 29, A 6 91, Q 27 7, A 37 57, Q 57 38, A 44 67, Q 81 65, Q 27 86, Q 91 80, Q 45 11, Q 71 57, Q 95 77, D 61 20]
+Q 10 68 ----> 1
+
+D 40 82 ----> Edge deleted successfully
+Q 91 47 ----> -1
+
+A 40 19 ----> Edge added successfully
+Q 37 15 ----> -1
+
+D 51 64 ----> Edge deleted successfully
+D 32 26 ----> Already there is no edge
+A 62 10 ----> Edge added successfully
+A 3 68 ----> Already there is an edge
+Q 35 54 ----> 1
+
+D 2 85 ----> Edge deleted successfully
+Q 67 52 ----> -1
+
+Q 34 12 ----> 3
+
+Q 43 58 ----> 1
+
+D 13 86 ----> Edge deleted successfully
+Q 28 54 ----> 1
+
+A 28 58 ----> Already there is an edge
+D 88 58 ----> Already there is no edge
+Q 12 5 ----> -1
+
+A 95 5 ----> Edge added successfully
+D 72 42 ----> Already there is no edge
+Q 32 65 ----> 1
+
+D 95 27 ----> Already there is no edge
+Q 68 73 ----> 1
+
+Q 8 68 ----> 1
+
+A 57 60 ----> Already there is an edge
+Q 16 30 ----> 1
+
+D 16 86 ----> Edge deleted successfully
+A 69 94 ----> Already there is an edge
+A 35 81 ----> Already there is an edge
+Q 19 99 ----> -1
+
+Q 28 93 ----> 1
+
+Q 38 81 ----> 1
+
+D 17 47 ----> Edge deleted successfully
+A 80 96 ----> Already there is an edge
+Q 60 5 ----> 2
+
+D 74 61 ----> Already there is no edge
+Q 19 25 ----> 1
+
+D 26 29 ----> Edge deleted successfully
+A 36 96 ----> Already there is an edge
+A 27 39 ----> Already there is an edge
+A 78 69 ----> Edge added successfully
+Q 7 46 ----> 1
+
+D 67 88 ----> Edge deleted successfully
+Q 50 31 ----> 3
+
+A 18 17 ----> Edge added successfully
+Q 85 32 ----> 3
+
+A 92 86 ----> Edge added successfully
+Q 39 40 ----> 1
+
+A 40 25 ----> Edge added successfully
+D 43 83 ----> Edge deleted successfully
+Q 27 57 ----> 1
+
+Q 87 83 ----> 3
+
+D 77 53 ----> Already there is no edge
+Q 1 11 ----> 1
+
+D 39 53 ----> Edge deleted successfully
+Q 41 3 ----> -1
+
+A 49 34 ----> Edge added successfully
+Q 29 91 ----> 1
+
+Q 82 50 ----> 3
+
+D 99 44 ----> Already there is no edge
+A 47 40 ----> Edge added successfully
+A 65 99 ----> Already there is an edge
+Q 47 20 ----> 3
+
+D 96 87 ----> Already there is no edge
+D 94 35 ----> Already there is no edge
+D 5 76 ----> Edge deleted successfully
+Q 61 37 ----> 3
+
+Q 66 0 ----> -1
+
+Q 62 65 ----> 1
+
+D 1 0 ----> Already there is no edge
+A 55 24 ----> Edge added successfully
+Q 65 73 ----> 1
+
+A 85 50 ----> Edge added successfully
+Q 0 97 ----> 1
+
+Q 14 99 ----> -1
+
+D 10 12 ----> Edge deleted successfully
+A 5 43 ----> Already there is an edge
+D 88 55 ----> Already there is no edge
+A 15 60 ----> Already there is an edge
+Q 63 60 ----> 3
+
+Q 52 28 ----> 3
+
+Q 18 0 ----> -1
+
+D 66 62 ----> Already there is no edge
+Q 7 93 ----> 1
+
+Q 71 25 ----> 3
+
+D 55 34 ----> Already there is no edge
+Q 57 29 ----> 3
+
+A 6 91 ----> Already there is an edge
+Q 27 7 ----> 3
+
+A 37 57 ----> Already there is an edge
+Q 57 38 ----> 3
+
+A 44 67 ----> Already there is an edge
+Q 81 65 ----> 3
+
+Q 27 86 ----> 1
+
+Q 91 80 ----> 3
+
+Q 45 11 ----> 3
+
+Q 71 57 ----> 3
+
+Q 95 77 ----> 2
+
+D 61 20 ----> Already there is no edge
+Response time: 985 ms
