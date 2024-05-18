@@ -25,7 +25,8 @@ public class Client {
             switch (performanceTesting) {
                 case "0":
                     logger = new Logger("clientLogs/randomRuns/" + clientID,clientID);
-                    operations = BatchGenerator.generateBatch(logger, 0.5, 100);
+                   // operations = BatchGenerator.generateBatch(logger, 0.5, 100);
+                    operations = BatchGenerator.readBatchFromFile("batch.txt" ,logger);
                     long startTime = System.currentTimeMillis();
                     ArrayList<String> res = stub.processBatchRequests(clientID, operations, false);
                     long endTime = System.currentTimeMillis();

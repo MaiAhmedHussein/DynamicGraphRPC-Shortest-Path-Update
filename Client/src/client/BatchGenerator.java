@@ -33,7 +33,7 @@ public class BatchGenerator {
         return ops;
     }
 
-    public static ArrayList<String> readBatchFromFile(String filePath) {
+    public static ArrayList<String> readBatchFromFile(String filePath, Logger logger) {
         ArrayList<String> operations = new ArrayList<>();
         File file = new File(filePath);
 
@@ -44,6 +44,7 @@ public class BatchGenerator {
                     break;
                 }
                 operations.add(line);
+                logger.log(line);
             }
         } catch (FileNotFoundException e) {
             System.err.println("Failed to read batch from file: " + e.getMessage());
