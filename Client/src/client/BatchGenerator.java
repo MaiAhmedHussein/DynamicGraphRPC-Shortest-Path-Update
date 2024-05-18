@@ -1,9 +1,12 @@
 package client;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class BatchGenerator {
     private static final char[] OPERATIONS = {'Q', 'A', 'D'};
@@ -28,6 +31,25 @@ public class BatchGenerator {
         }
         logger.log(ops.toString());
         return ops;
+    }
+
+    public static ArrayList<String> readBatchFromFile(String filePath) {
+        ArrayList<String> operations = new ArrayList<>();
+        File file = new File(filePath);
+
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (line.startsWith("F")) {
+                    break;
+                }
+                operations.add(line);
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Failed to read batch from file: " + e.getMessage());
+        }
+
+        return operations;
     }
 
 }
