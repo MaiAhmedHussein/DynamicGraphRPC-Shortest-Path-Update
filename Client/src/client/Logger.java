@@ -10,7 +10,7 @@ public class Logger {
 
     private String logFilePath;
 
-    public Logger(String logDir){
+    public Logger(String logDir, String num) {
 
         File parentDir = new File(logDir);
         if (!parentDir.exists()) {
@@ -20,7 +20,7 @@ public class Logger {
                 return;
             }
         }
-        this.logFilePath = Paths.get(logDir, new Timestamp(System.currentTimeMillis()).toString()).toString();
+         this.logFilePath = logDir + "/log" + num + ".txt";
         File logFile = new File(logFilePath);
 
         try (FileWriter writer = new FileWriter(logFile)) {
@@ -31,15 +31,12 @@ public class Logger {
 
     }
 
-    public void logWithTimestamp(String event){
-        log(String.format("%s\t%s", event, new Timestamp(System.currentTimeMillis())));
-    }
-
-    public void log(String event){
+    public void log(String event) {
         try (FileWriter writer = new FileWriter(this.logFilePath, true)) {
             writer.write(event + System.lineSeparator());
         } catch (IOException e) {
             System.out.println("Failed to write to logs: " + e.getMessage());
         }
     }
+
 }

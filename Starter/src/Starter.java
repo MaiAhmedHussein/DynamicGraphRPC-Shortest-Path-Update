@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Starter{
+public class Starter {
     public static void main(String[] args) throws IOException, InterruptedException {
         Properties props = new Properties();
         try {
@@ -52,6 +52,7 @@ public class Starter{
                 }
             });
         }
+
         executor.shutdown();
         while (!executor.isTerminated()) {
             // Wait for all clients to finish
@@ -76,7 +77,7 @@ public class Starter{
 
         // Performance test: Recording response time vs number of nodes [1,15]
         for (int i = 1; i <= 15; i++) {
-            executor = Executors.newFixedThreadPool(Integer.parseInt(props.getProperty("GSP.numberOfnodes")));
+            executor = Executors.newFixedThreadPool(i);
             for (int j = 0; j < i; j++) {
                 final int nodeIndex = j;
                 int finalI = i;
@@ -93,7 +94,6 @@ public class Starter{
                 // Wait for all clients to finish
             }
         }
-
         // Shutdown the server process
         serverProcess.destroy();
         serverProcess.waitFor();
@@ -107,12 +107,13 @@ public class Starter{
     private static void simulateClientOperation(int nodeIndex, int operationType, int numNodes) throws IOException, InterruptedException {
         String[] clientCommand;
         if (numNodes == -1) {
-            clientCommand = new String[]{"/bin/bash", "-c", "java -jar Client.jar node" + nodeIndex + " " + operationType};
+            clientCommand = new String[]{"/bin/bash", "-c", "java -jar Client.jar " + nodeIndex + " " + operationType};
         } else {
-            clientCommand = new String[]{"/bin/bash", "-c", "java -jar Client.jar node" + nodeIndex + " " + operationType + " " + numNodes};
+            clientCommand = new String[]{"/bin/bash", "-c", "java -jar Client.jar " + nodeIndex + " " + operationType + " " + numNodes};
         }
 
-        while (true) {
+        int iterations = 10;
+        for (int i = 0; i < iterations; i++) {
             Process clientProcess = Runtime.getRuntime().exec(clientCommand);
             handleProcessOutput(clientProcess);
             clientProcess.waitFor();

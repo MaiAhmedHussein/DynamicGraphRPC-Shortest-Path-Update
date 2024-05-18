@@ -12,7 +12,7 @@ import java.util.Properties;
 public class Server {
     public static void main(String[] args) {
         try {
-            System.setProperty("java.rmi.server.hostname", "192.168.1.9");
+            System.setProperty("java.rmi.server.hostname", "localhost");
             Logger logger = new Logger("ServerLogs/log_" + System.currentTimeMillis());
             GraphProcessor graphProcessor = new GraphProcessor(logger);
             graphProcessor.processInitialGraphInput(Objects.requireNonNull(Input.readInput("src/input.txt")));
